@@ -28,6 +28,21 @@ struct NoiseMods {
 	const std::function<float(float noise, int x)> post_stretch_filter;
 };
 
+struct Dimensions {
+	//Start Position (x|y).
+	float start[2],
+	      //Size of Picture (x|y).
+	      size[2],
+	      //Space between two points on one line.
+	      hor_space,
+		  //Space between two lines.
+	      ver_space;
+	//Number of points for each line.
+	int hor_count,
+		//Number of Lines.
+		ver_count;
+};
+
 /**
 * @brief Get Noise modified by nm.
 *
