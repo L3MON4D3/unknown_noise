@@ -7,7 +7,7 @@
 
 const std::function<float(int x)> const_mod {
 	[](int x) {
-		return 60;
+		return 5;
 	}
 };
 
@@ -22,6 +22,7 @@ int main(int argc, char** argv) {
 	fn.SetNoiseType(FastNoise::Perlin);
 	fn.SetSeed(std::rand());
 
-	unknown_noise::make_picture({{0,0}, {100, 200}, 1, 10, 100, 40},
-		fn, {0.1, 100, const_mod, no_filter}, "unknown_noise.png");
+	//res_stretch_sz should be equal to hor_count.
+	unknown_noise::make_picture({{0,0}, {1000, 1500}, 1, 100, 1000, 40},
+		fn, {5, 1000, const_mod, no_filter}, "unknown_noise.png");
 }
