@@ -15,15 +15,15 @@ struct NoiseMods {
 	* @param post_stretch_filter Input is stretched noise and x-Coord, output float.
 	*/
 	NoiseMods(
-	  float x_stretch,
-	  int res_stretch_sz,
+	  const float x_stretch,
+	  const int res_stretch_sz,
 	  const std::function<float(int x)> res_fill,
 	  const std::function<float(float noise, int x)> post_stretch_filter
 	);
 
-	int res_stretch_sz;
-	float x_stretch,
-	      *res_stretch;
+	const int res_stretch_sz;
+	const float x_stretch;
+	float *res_stretch;
 
 	const std::function<float(float noise, int x)> post_stretch_filter;
 };
