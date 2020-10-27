@@ -14,9 +14,9 @@ namespace unknown_noise {
  * @param name Filename of Picture.
  */
 void make_picture(
-  util::Dimensions dims,
-  FastNoise& fn,
-  util::NoiseMods& nm,
-  std::string name);
-
+  const util::Dimensions dims,
+  const FastNoise& fn,
+  const util::NoiseMods& nm,
+  const std::string name
+);
 };
