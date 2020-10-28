@@ -17,17 +17,21 @@ void draw_line(
   const util::NoiseMods& nm,
   Cairo::RefPtr<Cairo::Context> ctx
 ) {
+	FastNoise fn2;
+	fn2.SetNoiseType(FastNoise::Perlin);
+	fn2.SetSeed(fn.GetSeed());
+
 	//save current x_pos seperately to avoid multiplication.
 	float x_pos { dims.start[0] };
 
 	//First move is seperate as there is no point to move from.
-	ctx->move_to(x_pos, start_y+util::get_noise_modfd(nm, fn, 0, start_y*100));
+	ctx->move_to(x_pos, start_y+util::get_noise_modfd(nm, fn, 0, start_y*100)+fn2.GetNoise(0, start_y*100));
 	x_pos+=dims.hor_space;
 
 	for(int i{1}; i <= dims.hor_count; ++i, x_pos+=dims.hor_space) {
 		//Get noise at position i and subtract/add it to y-coord of point.
 		//start_y*100 because else lines look very similar.
-		float noise {util::get_noise_modfd(nm, fn, i, start_y*100)};
+		float noise {util::get_noise_modfd(nm, fn, i, start_y*100)+1*fn2.GetNoise(i*10, start_y*100)};
 		ctx->line_to(x_pos, start_y+noise);
 	}
 	//Copy path bcs fill needs to be done first, else blurry edges.
