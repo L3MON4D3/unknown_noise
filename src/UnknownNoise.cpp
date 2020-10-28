@@ -20,12 +20,13 @@ void draw_line(
 	float x_pos { dims.start[0] };
 
 	//First move is seperate as there is no point to move from.
-	ctx->move_to(x_pos, start_y+util::get_noise_modfd(nm, fn, 0));
+	ctx->move_to(x_pos, start_y+util::get_noise_modfd(nm, fn, 0, start_y*100));
 	x_pos+=dims.hor_space;
 
 	for(int i{1}; i <= dims.hor_count; ++i, x_pos+=dims.hor_space) {
 		//Get noise at position i and subtract/add it to y-coord of point.
-		float noise {util::get_noise_modfd(nm, fn, i)};
+		//start_y*100 because else lines look very similar.
+		float noise {util::get_noise_modfd(nm, fn, i, start_y*100)};
 		ctx->line_to(x_pos, start_y+noise);
 	}
 	ctx->stroke();

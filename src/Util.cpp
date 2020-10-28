@@ -19,8 +19,8 @@ NoiseMods::NoiseMods(
 		res_stretch[i] = res_fill(i);
 }
 
-float get_noise_modfd(NoiseMods nm, FastNoise fn, int x) {
-	return nm.post_stretch_filter(nm.res_stretch[x]*fn.GetNoise(nm.x_stretch*x, 0), x);
+float get_noise_modfd(NoiseMods nm, FastNoise fn, int x, int y) {
+	return nm.post_stretch_filter(nm.res_stretch[x]*fn.GetNoise(nm.x_stretch*x, y), x);
 }
 
 };

@@ -49,10 +49,11 @@ struct Dimensions {
 * @param nm NoiseMods.
 * @param fn FastNoise.
 * @param x Coord of Noise.
+* @param y Values should differ from noise to noise so there aren't duplicate lines.
 *
 * @return Modified Noise, possible modifications see NoiseMods.
 */
-float get_noise_modfd(NoiseMods nm, FastNoise fn, int x);
+float get_noise_modfd(NoiseMods nm, FastNoise fn, int x, int y);
 
 };
 };
