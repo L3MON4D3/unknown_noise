@@ -1,5 +1,6 @@
 #include "UnknownNoise.hpp"
 #include <cairomm/context.h>
+#include <cairomm/path.h>
 #include <cairomm/refptr.h>
 
 #include <iostream>
@@ -29,6 +30,18 @@ void draw_line(
 		float noise {util::get_noise_modfd(nm, fn, i, start_y*100)};
 		ctx->line_to(x_pos, start_y+noise);
 	}
+	//Copy path bcs fill needs to be done first, else blurry edges.
+	Cairo::Path *p = ctx->copy_path();
+	ctx->line_to(x_pos, start_y+1);
+	ctx->line_to(dims.start[0], start_y+1);
+	ctx->close_path();
+
+	ctx->set_source_rgb(0, 0, 0);
+	ctx->fill();
+
+	//load Path to stroke.
+	ctx->append_path(*p);
+	ctx->set_source_rgb(1, 1, 1);
 	ctx->stroke();
 }
 
@@ -44,7 +57,6 @@ void make_picture(
 		Cairo::ImageSurface::create(Cairo::FORMAT_RGB24, dims.size[0], dims.size[1]);
 	auto cr = Cairo::Context::create(surface);
 
-	cr->set_source_rgb(1, 1, 1);
 	float y_pos {dims.start[1]};
 	for(int i{0}; i != dims.ver_count; ++i, y_pos+=dims.ver_space)
 		draw_line(y_pos, dims, fn, nm, cr);
