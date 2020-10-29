@@ -22,6 +22,16 @@ struct Noise {
 	  const FastNoise& fn
 	);
 
+	/**
+	* @brief Get Noise modified by this Noise(mod).
+	*
+	* @param x Coord of Noise.
+	* @param y Values should differ from noise to noise so there aren't duplicate lines.
+	*
+	* @return Modified Noise.
+	*/
+	float at(int x, int y) const;
+
 	const int res_stretch_sz;
 	const float x_stretch;
 	float *res_stretch;
@@ -45,18 +55,6 @@ struct Dimensions {
 		//Number of Lines.
 		ver_count;
 };
-
-/**
-* @brief Get Noise modified by nm.
-*
-* @param nm NoiseMods.
-* @param fn FastNoise.
-* @param x Coord of Noise.
-* @param y Values should differ from noise to noise so there aren't duplicate lines.
-*
-* @return Modified Noise, possible modifications see NoiseMods.
-*/
-float get_noise_modfd(Noise nm, FastNoise fn, int x, int y);
 
 };
 };

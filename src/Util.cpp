@@ -16,13 +16,13 @@ Noise::Noise(
 	  res_stretch{ new float[res_stretch_sz] },
 	  post_stretch_filter{ post_stretch_filter },
 	  fn{ fn } { 
-	
+
 	for(int i{0}; i != res_stretch_sz; ++i)
 		res_stretch[i] = res_fill(i);
 }
 
-float get_noise_modfd(Noise n, FastNoise fn, int x, int y) {
-	return n.post_stretch_filter(n.res_stretch[x]*fn.GetNoise(n.x_stretch*x, y), x);
+float Noise::at(int x, int y) const {
+	return post_stretch_filter(res_stretch[x]*fn.GetNoise(x_stretch*x, y), x);
 }
 
 };

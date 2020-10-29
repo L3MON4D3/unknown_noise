@@ -13,7 +13,7 @@ namespace {
 void draw_line(
   const float start_y,
   const util::Dimensions dims,
-  const util::Noise& nm,
+  const util::Noise& n,
   Cairo::RefPtr<Cairo::Context> ctx
 ) {
 	//save current x_pos seperately to avoid multiplication.
@@ -21,13 +21,13 @@ void draw_line(
 
 	//First move is seperate as there is no point to move from.
 	ctx->begin_new_path();
-	ctx->move_to(x_pos, start_y+util::get_noise_modfd(nm, nm.fn, 0, start_y*100));
+	ctx->move_to(x_pos, start_y+n.at(0, start_y*100));
 	x_pos+=dims.hor_space;
 
 	for(int i{1}; i <= dims.hor_count; ++i, x_pos+=dims.hor_space) {
 		//Get noise at position i and subtract/add it to y-coord of point.
 		//start_y*100 because else lines look very similar.
-		float noise {util::get_noise_modfd(nm, nm.fn, i, start_y*100)};
+		float noise {n.at(i, start_y*100)};
 		ctx->line_to(x_pos, start_y+noise);
 	}
 	//Copy path bcs fill needs to be done first, else blurry edges.
