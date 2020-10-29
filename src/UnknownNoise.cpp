@@ -16,10 +16,6 @@ void draw_line(
   const util::Noise& nm,
   Cairo::RefPtr<Cairo::Context> ctx
 ) {
-	FastNoise fn2;
-	fn2.SetNoiseType(FastNoise::Perlin);
-	fn2.SetSeed(nm.fn.GetSeed());
-
 	//save current x_pos seperately to avoid multiplication.
 	float x_pos { dims.start[0] };
 
@@ -31,7 +27,7 @@ void draw_line(
 	for(int i{1}; i <= dims.hor_count; ++i, x_pos+=dims.hor_space) {
 		//Get noise at position i and subtract/add it to y-coord of point.
 		//start_y*100 because else lines look very similar.
-		float noise {util::get_noise_modfd(nm, nm.fn, i, start_y*100)+3*fn2.GetNoise(i*10, start_y*100)};
+		float noise {util::get_noise_modfd(nm, nm.fn, i, start_y*100)};
 		ctx->line_to(x_pos, start_y+noise);
 	}
 	//Copy path bcs fill needs to be done first, else blurry edges.
