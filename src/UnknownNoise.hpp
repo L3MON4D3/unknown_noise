@@ -9,14 +9,12 @@ namespace unknown_noise {
  * @brief Generate new Picture.
  *
  * @param dims Info on various dimensions, more in util.
- * @param fn Noise-Generator.
- * @param nm Noise modfications, more in util.
+ * @param n Noise modfications, more in util.
  * @param name Filename of Picture.
  */
 void make_picture(
   const util::Dimensions dims,
-  const FastNoise& fn,
-  const util::NoiseMods& nm,
+  const util::Noise& n,
   const std::string name
 );
 };

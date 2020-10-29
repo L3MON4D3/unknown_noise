@@ -4,7 +4,7 @@
 namespace unknown_noise {
 namespace util {
 
-struct NoiseMods {
+struct Noise {
 	/**
 	* @brief Create NoiseMods. Controls "Resolution", amplification and final
 	* noise.
@@ -14,11 +14,12 @@ struct NoiseMods {
 	*   should be stretched.
 	* @param post_stretch_filter Input is stretched noise and x-Coord, output float.
 	*/
-	NoiseMods(
+	Noise(
 	  const float x_stretch,
 	  const int res_stretch_sz,
 	  const std::function<float(int x)> res_fill,
-	  const std::function<float(float noise, int x)> post_stretch_filter
+	  const std::function<float(float noise, int x)> post_stretch_filter,
+	  const FastNoise& fn
 	);
 
 	const int res_stretch_sz;
@@ -26,6 +27,8 @@ struct NoiseMods {
 	float *res_stretch;
 
 	const std::function<float(float noise, int x)> post_stretch_filter;
+
+	FastNoise fn;
 };
 
 struct Dimensions {
@@ -53,7 +56,7 @@ struct Dimensions {
 *
 * @return Modified Noise, possible modifications see NoiseMods.
 */
-float get_noise_modfd(NoiseMods nm, FastNoise fn, int x, int y);
+float get_noise_modfd(Noise nm, FastNoise fn, int x, int y);
 
 };
 };
