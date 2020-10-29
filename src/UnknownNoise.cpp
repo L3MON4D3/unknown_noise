@@ -24,7 +24,8 @@ void draw_line(
 	float x_pos { dims.start[0] };
 
 	//First move is seperate as there is no point to move from.
-	ctx->move_to(x_pos, start_y+util::get_noise_modfd(nm, nm.fn, 0, start_y*100)+3*fn2.GetNoise(0, start_y*100));
+	ctx->begin_new_path();
+	ctx->move_to(x_pos, start_y+util::get_noise_modfd(nm, nm.fn, 0, start_y*100));
 	x_pos+=dims.hor_space;
 
 	for(int i{1}; i <= dims.hor_count; ++i, x_pos+=dims.hor_space) {
