@@ -9,21 +9,23 @@
 #include "UnknownNoise.hpp"
 
 //Bell-shaped function.
-const std::function<float(float x, float a)> witch {
-	[](float x, float a) {
-		return (8*std::pow(a, 3))/(std::pow(x-25, 2)+ 4*std::pow(a, 2));
+const std::function<float(float x)> witch {
+	[](float x) {
+		float actual_x {x*(50.0f/600)};
+		float a {1};
+		return (8*std::pow(a, 3))/(std::pow(actual_x-25, 2)+ 4*std::pow(a, 2));
 	}
 };
 
 const std::function<float(int x)> simplex_mod {
 	[](int x) {
-		return witch(x*(50.0/600)-x/100.0, 1)*10;
+		return witch(x)*10;
 	}
 };
 
 const std::function<float(float noise, int x)> simplex_filter {
 	[](float noise, int x) {
-		return noise - witch(x*(50.0/600)-x/100.0, 1)*10;
+		return noise - witch(x)*10;
 	}
 };
 
