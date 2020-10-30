@@ -22,7 +22,7 @@ void draw_line(
 ) {
 	//save current x_pos seperately to avoid multiplication.
 	float x_pos { dims.start[0] };
-	float y { start_y*100 };
+	float y { start_y*1000 };
 	int x {0};
 
 	//First move is seperate as there is no point to move from.
