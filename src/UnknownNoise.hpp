@@ -14,7 +14,8 @@ namespace unknown_noise {
  */
 void make_picture(
   const util::Dimensions dims,
-  const util::Noise& n,
+  const std::vector<util::Noise>& n,
   const std::string name
 );
+
 };

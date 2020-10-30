@@ -15,13 +15,13 @@ const std::function<float(float x, float a)> witch {
 	}
 };
 
-const std::function<float(int x)> const_mod {
+const std::function<float(int x)> simplex_mod {
 	[](int x) {
 		return witch(x*(50.0/600)-x/100.0, 1)*10;
 	}
 };
 
-const std::function<float(float noise, int x)> no_filter {
+const std::function<float(float noise, int x)> simplex_filter {
 	[](float noise, int x) {
 		return noise - witch(x*(50.0/600)-x/100.0, 1)*10;
 	}
@@ -36,5 +36,5 @@ int main(int argc, char** argv) {
 
 	//res_stretch_sz should be equal to hor_count.
 	unknown_noise::make_picture({{190, 225}, {680, 1200}, .5, 8, 600, 50},
-		{1, 600, const_mod, no_filter, fn}, "unknown_noise.png");
+		{{1, 600, simplex_mod, simplex_filter, fn}}, "unknown_noise.png");
 }
