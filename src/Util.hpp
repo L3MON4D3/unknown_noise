@@ -6,17 +6,25 @@ namespace util {
 
 struct Noise {
 	/**
-	* @brief Create NoiseMods. Controls "Resolution", amplification and final
-	* noise.
 	*
 	* @param x_stretch Resolution eg. noise(res*x).
-	* @param res_fill Result-stretch function, calculate how much noise at x-coord
-	*   should be stretched.
-	* @param post_stretch_filter Input is stretched noise and x-Coord, output float.
 	*/
+	/**
+	 * @brief Create NoiseMods. Controls "Resolution", amplification and final
+	 * noise.
+	 *
+	 * @param def_range Defined Range of Noise, eg size of amplification- and
+	 *  res/pos-arrays.
+	 * @param x_pos_fill Mapping of x-values 0 through def_range to actual
+	 *  x-values in noise.
+	 * @param res_fill Result-stretch function, calculate how much noise at x-coord
+	 *   should be stretched.
+	 * @param post_stretch_filter Input is stretched noise and x-Coord, output float.
+	 * @param fn Instance of FastNoise.
+	 */
 	Noise(
-	  const float x_stretch,
-	  const int res_stretch_sz,
+	  const int def_range,
+	  const std::function<float(int x)> x_pos_fill,
 	  const std::function<float(int x)> res_fill,
 	  const std::function<float(float noise, int x)> post_stretch_filter,
 	  const FastNoise& fn
@@ -30,13 +38,13 @@ struct Noise {
 	*
 	* @return Modified Noise.
 	*/
-	float at(int x, int y) const;
+	float at(const int x, const int y) const;
 
-	const int res_stretch_sz;
-	const float x_stretch;
-	float *res_stretch;
+	int def_range;
+	float *res_stretch,
+	      *x_pos_scale;
 
-	const std::function<float(float noise, int x)> post_stretch_filter;
+	std::function<float(float noise, int x)> post_stretch_filter;
 
 	FastNoise fn;
 };

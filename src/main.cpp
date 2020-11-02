@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -9,34 +10,68 @@
 #include "UnknownNoise.hpp"
 
 //Bell-shaped function.
-const std::function<float(float x)> witch {
-	[](float x) {
-		float actual_x {x*(50.0f/600)};
-		float a {1};
-		return (8*std::pow(a, 3))/(std::pow(actual_x-25, 2)+ 4*std::pow(a, 2));
+float witch(float x, float a) {
+	return (8*std::pow(a, 3))/(std::pow(x, 2)+ 4*std::pow(a, 2));
+}
+
+float mod_func(float x) {
+	if (x < 400)
+		return witch(x*(50.0f/800)-25, 2);
+	else if (x < 800)
+		return witch(0, 2);
+	else
+		return witch(x*(50.0f/800)-50, 2);
+}
+
+const std::function<float(int x)> simplex_x_pos {
+	[](int x) {
+		return .3;
 	}
 };
 
 const std::function<float(int x)> simplex_mod {
 	[](int x) {
-		return witch(x)*10;
+		return mod_func(x)*10;
 	}
 };
 
 const std::function<float(float noise, int x)> simplex_filter {
 	[](float noise, int x) {
-		return noise - witch(x)*10;
+		return noise - mod_func(x)*10;
+	}
+};
+
+const std::function<float(int x)> perlin_x_pos {
+	[](int x) {
+		return 4;
+	}
+};
+
+const std::function<float(int x)> perlin_mod {
+	[](int x) {
+		return 2;
+	}
+};
+
+const std::function<float(float noise, int x)> perlin_filter {
+	[](float noise, int x) {
+		return noise;
 	}
 };
 
 int main(int argc, char** argv) {
-	FastNoise fn;
+	FastNoise fn, fn2;
 	fn.SetNoiseType(FastNoise::Simplex);
+	fn2.SetNoiseType(FastNoise::Perlin);
 
 	srand(time(0));
 	fn.SetSeed(std::rand());
+	fn2.SetSeed(std::rand());
 
 	//res_stretch_sz should be equal to hor_count.
-	unknown_noise::make_picture({{190, 225}, {680, 1200}, .5, 8, 600, 50},
-		{{1, 600, simplex_mod, simplex_filter, fn}}, "unknown_noise.png");
+	unknown_noise::make_picture(
+		{{40, 225}, {680, 1200}, .5, 8, 1200, 50}, {
+			{1200, simplex_x_pos, simplex_mod, simplex_filter, fn},
+		    {1200, perlin_x_pos, perlin_mod, perlin_filter, fn2}
+		}, "unknown_noise.png");
 }
