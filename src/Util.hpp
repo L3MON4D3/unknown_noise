@@ -1,5 +1,6 @@
 #include "FastNoise.h"
 #include <functional>
+#include <memory>
 
 namespace unknown_noise {
 namespace util {
@@ -30,8 +31,6 @@ struct Noise {
 	  const FastNoise& fn
 	);
 
-	~Noise();
-
 	/**
 	* @brief Get Noise modified by this Noise(mod).
 	*
@@ -43,8 +42,8 @@ struct Noise {
 	float at(const int x, const int y) const;
 
 	int def_range;
-	float *res_stretch,
-	      *x_pos_scale;
+	std::unique_ptr<float[]> res_stretch,
+	      x_pos_scale;
 
 	std::function<float(float noise, int x)> post_stretch_filter;
 

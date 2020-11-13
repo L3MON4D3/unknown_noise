@@ -1,5 +1,6 @@
 #include "Util.hpp"
 #include <iostream>
+#include <memory>
 
 namespace unknown_noise {
 namespace util {
@@ -13,8 +14,8 @@ Noise::Noise(
   const FastNoise& fn
 )
 	: def_range{ def_range },
-	  x_pos_scale{ new float[def_range] },
-	  res_stretch{ new float[def_range] },
+	  x_pos_scale{ std::make_unique<float[]>(def_range) },
+	  res_stretch{ std::make_unique<float[]>(def_range) },
 	  post_stretch_filter{ post_stretch_filter },
 	  fn{ fn } { 
 
@@ -25,10 +26,6 @@ Noise::Noise(
 	x_pos_scale[0] = x_pos_fill(0);
 	for(int i{1}; i < def_range; ++i)
 		x_pos_scale[i] = x_pos_fill(i) + x_pos_scale[i-1];
-}
-
-Noise::~Noise() {
-	delete[] res_stretch, delete[] x_pos_scale;
 }
 
 float Noise::at(const int x, const int y) const {

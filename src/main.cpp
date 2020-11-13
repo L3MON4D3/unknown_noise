@@ -71,7 +71,7 @@ int main(int argc, char** argv) {
 
 	using unknown_noise::util::Noise;
 	std::vector<std::unique_ptr<Noise>> vec;
-	vec.push_back(std::unique_ptr<Noise>{new Noise{1200, simplex_x_pos, simplex_mod, simplex_filter, fn}});
+	vec.push_back(std::make_unique<Noise>(1200, simplex_x_pos, simplex_mod, simplex_filter, fn));
 	//res_stretch_sz should be equal to hor_count.
 	unknown_noise::make_picture(
 		{{40, 225}, {680, 1200}, .5, 8, 1200, 100}, vec, "unknown_noise.png");
