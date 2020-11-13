@@ -27,6 +27,10 @@ Noise::Noise(
 		x_pos_scale[i] = x_pos_fill(i) + x_pos_scale[i-1];
 }
 
+Noise::~Noise() {
+	delete[] res_stretch, delete[] x_pos_scale;
+}
+
 float Noise::at(const int x, const int y) const {
 	return post_stretch_filter(res_stretch[x]*fn.GetNoise(x_pos_scale[x], y), x);
 }

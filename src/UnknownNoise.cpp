@@ -17,7 +17,7 @@ namespace {
 void draw_line(
   const float start_y,
   const util::Dimensions dims,
-  const std::vector<util::Noise>& n,
+  const std::vector<std::unique_ptr<util::Noise>>& n,
   Cairo::RefPtr<Cairo::Context> ctx
 ) {
 	//save current x_pos seperately to avoid multiplication.
@@ -29,9 +29,9 @@ void draw_line(
 	ctx->begin_new_path();
 	float noise {start_y};
 
-	const std::function<void(const util::Noise n)> add_noise {
-		[&noise, y, &x](const util::Noise& n) {
-			noise+=n.at(x, y);
+	const std::function<void(const std::unique_ptr<util::Noise>& n)> add_noise {
+		[&noise, y, &x](const std::unique_ptr<util::Noise>& n) {
+			noise+=n->at(x, y);
 		}
 	};
 
@@ -66,7 +66,7 @@ void draw_line(
 
 void make_picture(
   const util::Dimensions dims,
-  const std::vector<util::Noise>& n,
+  const std::vector<std::unique_ptr<util::Noise>>& n,
   const std::string name
 ) {
 	auto surface =

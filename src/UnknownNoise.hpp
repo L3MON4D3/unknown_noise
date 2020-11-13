@@ -3,6 +3,8 @@
 #include <cairomm/refptr.h>
 #include <cairomm/surface.h>
 
+#include <memory>
+
 namespace unknown_noise {
 
 /**
@@ -14,7 +16,7 @@ namespace unknown_noise {
  */
 void make_picture(
   const util::Dimensions dims,
-  const std::vector<util::Noise>& n,
+  const std::vector<std::unique_ptr<util::Noise>>& n,
   const std::string name
 );
 

@@ -30,6 +30,8 @@ struct Noise {
 	  const FastNoise& fn
 	);
 
+	~Noise();
+
 	/**
 	* @brief Get Noise modified by this Noise(mod).
 	*
