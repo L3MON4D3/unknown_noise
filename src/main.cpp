@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <vector>
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <cstdlib>
@@ -60,6 +61,8 @@ const std::function<float(float noise, int x)> perlin_filter {
 	}
 };
 
+using unknown_noise::util::Noise;
+
 int main(int argc, char** argv) {
 	FastNoise fn, fn2;
 	fn.SetNoiseType(FastNoise::SimplexFractal);
@@ -69,10 +72,10 @@ int main(int argc, char** argv) {
 	fn.SetSeed(std::rand());
 	fn2.SetSeed(std::rand());
 
-	using unknown_noise::util::Noise;
-	std::vector<std::unique_ptr<Noise>> vec;
-	vec.push_back(std::make_unique<Noise>(1200, simplex_x_pos, simplex_mod, simplex_filter, fn));
 	//res_stretch_sz should be equal to hor_count.
+	std::vector<Noise> vec;
+	vec.push_back(Noise{1200, simplex_x_pos, simplex_mod, simplex_filter, fn});
+
 	unknown_noise::make_picture(
 		{{40, 225}, {680, 1200}, .5, 8, 1200, 100}, vec, "unknown_noise.png");
 }
