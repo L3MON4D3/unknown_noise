@@ -1,6 +1,5 @@
 #include "Util.hpp"
 #include <iostream>
-#include <memory>
 
 namespace unknown_noise {
 namespace util {
@@ -18,7 +17,7 @@ Noise::Noise(
 	  res_stretch{ std::make_unique<float[]>(def_range) },
 	  post_stretch_filter{ post_stretch_filter },
 	  fn{ fn } { 
-
+	
 	for(int i{0}; i != def_range; ++i)
 		res_stretch[i] = res_fill(i);
 
